@@ -22,9 +22,6 @@ const Profile = () => {
         }
         getShares()
     }, [])
-    console.log(walletAddress)
-    
-
   return (
     <div className='flex-center flex-col w-full'>
       <h1 className='head_text text-center capitalize'>
@@ -34,7 +31,7 @@ const Profile = () => {
         <div className='flex-center w-full'>
             <img src={profile} className="h-[100px] w-[100px]"/>
         </div>
-        <h1 className='mt-8 text-center'>User Balance: {balance} ETH</h1>
+        <h1 className='mt-8 text-center'>User Balance: {balance} VLT</h1>
       </div>
     </div>
   )

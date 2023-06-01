@@ -1,13 +1,18 @@
-// contract address: 0xC57C3f6a11CA9f2d0279fa6AD22Ad21e07bcC2Ce
+// contract address: 0x1bcC922f061462023047DA125f38148AdAa5fa97
+// token address: 0xe96A22092FE7812D301D6bD78eC3E1E733a8D442
 
 import ABI from "./ABI.json";
+import TokenABI from "./TokenABI.json"
 import Web3 from "web3"
 //
 const { ethereum }: any = window;
 const web3 = new Web3(ethereum);
-const contractAddress = "0xC57C3f6a11CA9f2d0279fa6AD22Ad21e07bcC2Ce";
+const contractAddress = "0x1bcC922f061462023047DA125f38148AdAa5fa97";
+const tokenAddress = "0xe96A22092FE7812D301D6bD78eC3E1E733a8D442"
 const ABI_VALUE: any = ABI;
+const TOKEN_ABI: any = TokenABI;
 const contract = new web3.eth.Contract(ABI_VALUE, contractAddress);
+const tokenContract = new web3.eth.Contract(TOKEN_ABI, tokenAddress)
 
 export const connectWallet = async () => {
   if ((window as any).ethereum) {
@@ -76,20 +81,32 @@ export const getCurrentWalletConnected = async () => {
   }
 };
 
+export const approve = async( amount: any) => {
+  try{
+    const accounts = await web3.eth.getAccounts()
+    const amt = web3.utils.toWei(amount, "ether")
+    const res = await tokenContract.methods.approve(contractAddress, amount).send({from: accounts[0]})
+    return{
+      success: true,
+      res
+    }
+  }catch(e: any){
+    return e
+  }
+}
 // deposit to vault
-export const deposit = async (amount: any) => {
+export const deposit = async ( amount: any) => {
   if((window as any).ethereum){
     const status = await checkChainID();
     if(status === true){
       try {
-        const amt = web3.utils.toWei(amount, "ether")
-        const accounts = await web3.eth.getAccounts();
-        const response = await contract.methods.deposit(amt).send({from: accounts[0], value: amt});
-        console.log(response);
-        return {
-          success: true,
-          response,
-        };
+          const amt = web3.utils.toWei(amount, "ether")
+          const accounts = await web3.eth.getAccounts();
+          const response = await contract.methods.deposit(amt).send({from: accounts[0]});
+          return {
+            success: true,
+            response,
+          };
       } catch (e: any) {
         return {
           success: false,
@@ -101,14 +118,14 @@ export const deposit = async (amount: any) => {
   
 };
 // withdraw from vault
-export const withdraw = async(amount: any) => {
+export const withdraw = async(amount: any, address: any) => {
   if((window as any).ethereum){
     const status = await checkChainID();
     if(status === true){
       try{
         const amt = web3.utils.toWei(amount, "ether")
         const accounts = await web3.eth.getAccounts();
-        const response = await contract.methods.withdraw(amt).send({from: accounts[0]});
+        const response = await contract.methods.withdraw(amt, address).send({from: accounts[0]});
         return{
           success: true,
           response
@@ -129,7 +146,7 @@ export const getUserShares = async (address: any) => {
     if(status === true){
       try{
         const addr = address.toString().toLowerCase()
-        const response = await contract.methods.getBalance(addr).call();
+        const response = await contract.methods.shareHolder(addr).call();
         const val = web3.utils.fromWei(response, "ether")
         return{
           success: true,

@@ -7,7 +7,6 @@ import { WalletType } from "../types/Wallet";
 import { connectWallet } from "../utils/interactions";
 
 const Navbar = () => {
-  const [connectionSatatus, setConnectionStatus] = useState(true);
   const [toggleDropdown, setToggleDropdown] = useState(false);
   
 
@@ -16,16 +15,11 @@ const Navbar = () => {
 
   const connect = async() => {
     const wallet: WalletType = await connectWallet()
-    console.log(wallet)
     if (wallet?.status === true) {
       const {res} = wallet
       setWalletAddress(res)
-		} else {
-			setConnectionStatus(false);
 		}
-    console.log(connectionSatatus)
   }
-
   return (
     <nav className="flex-between w-full mb-16 pt-3 ">
       <Link to="/" className="flex flex-center gap-2">
