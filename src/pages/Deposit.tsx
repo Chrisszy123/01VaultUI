@@ -6,17 +6,8 @@ import Validate from '../utils/Validate'
 
 const Deposit = () => {
   const [amount, setAmount] = useState<any>(0)
-  const [approveAmt, setApproveAmt] = useState<any>(0)
 
-  const handleApprove =  async() => {
-    try{
-      if(Validate(approveAmt).empty()){
-        const response = await approve(approveAmt)
-      }
-    }catch(e: any){
-      return e
-    }
-  }
+  
   const handleDeposit = async() => {
     try{
       if(Validate(amount).empty()){
@@ -30,25 +21,9 @@ const Deposit = () => {
   return (
     <div className='flex-center flex-col w-full'>
       <h1 className='head_text text-center capitalize'>
-        deposit
+        deposit / Approve
       </h1>
       <div className="w-9/12 sm:w-6/12 h-[300px] mt-16 glassmorphism">
-        <Input
-            className='h-[70px] flex-center'
-            inputClass='w-11/12 h-[40px] p-4 rounded-md outline-none'
-						placeholder="Enter amount to approve"
-						type=""
-						action={setApproveAmt}
-					/>
-					<br />
-					<Button
-            className='action_btn'
-						text="Approve"
-						disabled={
-							true ? !approveAmt : false
-						}
-						action={() => handleApprove()}
-					/>
 					<Input
             className='h-[70px] flex-center'
             inputClass='w-11/12 h-[40px] p-4 rounded-md outline-none'
@@ -58,13 +33,16 @@ const Deposit = () => {
 					/>
 					<br />
 					<Button
-            className='action_btn'
+            className='action_btn mb-5'
 						text="Deposit"
 						disabled={
 							true ? !amount : false
 						}
 						action={() => handleDeposit()}
 					/>
+          <span className='mt-4 text-sm text-red-500 pt-8'>
+            NOTE: This process would require two transactions to be confirmed
+          </span>
 				</div>
  
    </div>

@@ -100,13 +100,18 @@ export const deposit = async ( amount: any) => {
     const status = await checkChainID();
     if(status === true){
       try {
-          const amt = web3.utils.toWei(amount, "ether")
-          const accounts = await web3.eth.getAccounts();
-          const response = await contract.methods.deposit(amt).send({from: accounts[0]});
-          return {
-            success: true,
-            response,
-          };
+          const app = await approve(amount)
+          if(app.success === true){
+            const amt = web3.utils.toWei(amount, "ether")
+            const accounts = await web3.eth.getAccounts();
+            const response = await contract.methods.deposit(amt).send({from: accounts[0]});
+            return {
+              success: true,
+              response,
+            };
+          }else{
+            return{msg: "approval needed"}
+          }   
       } catch (e: any) {
         return {
           success: false,
