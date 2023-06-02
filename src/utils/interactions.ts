@@ -85,7 +85,7 @@ export const approve = async( amount: any) => {
   try{
     const accounts = await web3.eth.getAccounts()
     const amt = web3.utils.toWei(amount, "ether")
-    const res = await tokenContract.methods.approve(contractAddress, amount).send({from: accounts[0]})
+    const res = await tokenContract.methods.approve(contractAddress, amt).send({from: accounts[0]})
     return{
       success: true,
       res

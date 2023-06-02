@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { WalletContext } from "./context/WalletContext";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";

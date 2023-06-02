@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import { approve, deposit } from '../utils/interactions'
+import {deposit } from '../utils/interactions'
 import Validate from '../utils/Validate'
 
 const Deposit = () => {
@@ -11,7 +11,7 @@ const Deposit = () => {
   const handleDeposit = async() => {
     try{
       if(Validate(amount).empty()){
-        const response = await deposit(amount)
+        await deposit(amount)
       }
     }catch(e: any){
       return e
@@ -40,8 +40,8 @@ const Deposit = () => {
 						}
 						action={() => handleDeposit()}
 					/>
-          <span className='mt-4 text-sm text-red-500 pt-8'>
-            NOTE: This process would require two transactions to be confirmed
+          <span className='mt-4 text-sm text-red-500 flex-center'>
+            NOTE: This process would require two transactions to be confirmed.
           </span>
 				</div>
  

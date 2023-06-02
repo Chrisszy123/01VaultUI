@@ -21,7 +21,7 @@ const Profile = () => {
             }
         }
         getShares()
-    }, [])
+    }, [walletAddress])
   return (
     <div className='flex-center flex-col w-full'>
       <h1 className='head_text text-center capitalize'>
@@ -29,7 +29,7 @@ const Profile = () => {
       </h1>
       <div className="w-9/12 sm:w-6/12 h-[300px] mt-16 glassmorphism ">
         <div className='flex-center w-full'>
-            <img src={profile} className="h-[100px] w-[100px]"/>
+            <img src={profile} className="h-[100px] w-[100px]" alt='profile'/>
         </div>
         <h1 className='mt-8 text-center'>User Balance: {balance} VLT</h1>
       </div>
